@@ -66,6 +66,8 @@ public class Singleton {
 	{
 		System.out.println(userRepository);
 	}
+	
+	
 	public User checkSession(String sessionKey)
 	{
 		List<Sessions> list = sessionRepository.findBysessionKey(sessionKey);
@@ -78,6 +80,23 @@ public class Singleton {
 		}
 		return null;
 	}
+	
+	
+	public User checkAdvanceSession(String sessionKey)
+	{
+		List<Sessions> list = sessionRepository.findBysessionKey(sessionKey);
+		if(list.size() != 0)
+		{
+			Sessions mySession = list.get(0);
+			if (mySession.getIs_active()==0)
+				return null;	
+			else return mySession.getSessionUser();
+		}
+		return null;
+	}
+	
+	
+	
 	public ResponseEntity<ResponseModel> notAuthUser()
 	{
 		return new ResponseEntity<ResponseModel>(new ResponseModel(resultRepository.getOne(4).getResult_text(), null),HttpStatus.UNAUTHORIZED);
